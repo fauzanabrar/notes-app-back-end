@@ -1,4 +1,4 @@
-const mapDBToModel = ({ 
+const mapDBToModel = ({
   id,
   title,
   body,

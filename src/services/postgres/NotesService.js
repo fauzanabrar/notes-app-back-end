@@ -1,10 +1,10 @@
-const { nanoid } = require("nanoid");
-const { Pool } = require("pg");
-const InvariantError = require("../../exceptions/InvariantError");
-const { mapDBToModel } = require("../../utils");
-const NotFoundError = require("../../exceptions/NotFoundError");
+const { nanoid } = require('nanoid');
+const { Pool } = require('pg');
+const InvariantError = require('../../exceptions/InvariantError');
+const { mapDBToModel } = require('../../utils');
+const NotFoundError = require('../../exceptions/NotFoundError');
 
-class NotesService{
+class NotesService {
   constructor() {
     this._pool = new Pool();
   }
@@ -12,12 +12,11 @@ class NotesService{
   async addNote({ title, body, tags }) {
     const id = nanoid(16);
     const created_at = new Date().toISOString();
-    const updated_at = created_at;
 
     const query = {
       text: 'INSERT INTO notes VALUES($1, $2, $3, $4, $5, $6) RETURNING id',
-      values: [id, title, body, tags, created_at, updated_at],
-    }
+      values: [id, title, body, tags, created_at, created_at],
+    };
 
     const result = await this._pool.query(query);
 
@@ -66,7 +65,7 @@ class NotesService{
     const query = {
       text: 'DELETE FROM notes WHERE id = $1 RETURNING id',
       values: [id],
-    }
+    };
 
     const result = await this._pool.query(query);
 
